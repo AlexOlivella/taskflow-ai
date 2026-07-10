@@ -5,6 +5,12 @@ The following diagram represents the core business entities and their relationsh
 ```mermaid
 classDiagram
 
+class Workspace
+class User
+class Project
+class Task
+class WorkspaceMembership
+
 ```
 
 This diagram intentionally omits implementation details such as database fields or foreign keys.
