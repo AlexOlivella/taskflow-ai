@@ -26,9 +26,9 @@ User
 
 ### AF-4.1 Invalid workspace name
 
-4a. The workspace name is empty.
-4b. The system informs the user that the workspace name is required.
-4c. The workspace is not created.
+- **4.a.** The workspace name is empty.
+- **4.b.** The system informs the user that the workspace name is required.
+- **4.c.** The workspace is not created.
 
 ## Postconditions
 

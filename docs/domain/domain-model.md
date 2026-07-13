@@ -17,19 +17,21 @@ Represents an isolated collaboration space where users work together.
 ### Responsibilities
 
 - Provides an isolated collaboration space.
-- Defines the scope in which projects, tasks and workspace memberships exist.
+- Defines the scope in which projects, tasks, workspace memberships and invitations exist.
 
 ### Relationships
 
 - Owns many projects.
 - Owns many tasks.
-- Contains many workspace memberships.
+- Owns many workspace memberships.
+- Owns many invitations.
 
 ### Invariants
 
 - Projects cannot exist outside a workspace.
 - Tasks cannot exist outside a workspace.
 - Workspace memberships cannot exist outside a workspace.
+- Invitations cannot exist outside a workspace.
 
 ---
 
@@ -47,6 +49,7 @@ Represents a person who collaborates within one or more workspaces.
 - Has many workspace memberships.
 - Has many created tasks.
 - Has many assigned tasks.
+- Has many sent invitations.
 
 ---
 
@@ -110,3 +113,25 @@ Represents the relationship between a user and a workspace.
 
 - A user can have only one membership per workspace.
 - Every membership has exactly one role.
+
+---
+
+## Invitation
+
+Represents a request for a person identified by an email address to join a workspace, whether they already have an account or not.
+
+### Responsibilities
+
+- Associates an email address with a workspace invitation.
+
+### Relationships
+
+- Belongs to one workspace.
+- Has one inviter.
+- May become one workspace membership.
+
+### Invariants
+
+- Must belong to exactly one workspace.
+- Must reference exactly one email address.
+- A pending invitation must be unique per email address within a workspace.

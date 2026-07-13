@@ -34,13 +34,24 @@ erDiagram
         datetime createdAt
     }
 
+    Invitation {
+        UUID id
+        string email
+        InvitationStatus status
+        datetime createdAt
+    }
+
     Workspace ||--o{ Project : owns
     Workspace ||--o{ Task : owns
-    Workspace ||--o{ WorkspaceMembership : has
+    Workspace ||--o{ WorkspaceMembership : owns
+    Workspace ||--o{ Invitation : owns
+
     User      ||--o{ WorkspaceMembership : has
-    Project   o|--o{ Task : contains
     User      ||--o{ Task : creates
     User      o|--o{ Task : assigned
+    User      ||--o{ Invitation : invites
+
+    Project   o|--o{ Task : contains
 
 
 ```
