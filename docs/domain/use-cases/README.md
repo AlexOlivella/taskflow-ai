@@ -25,24 +25,21 @@ Alternative Flows are identified by the Main Flow step where they originate (e.g
 ## Workspace
 
 - [UC-001 Create Workspace](./UC-001-create-workspace.md)
-- UC-002 Invite User
-- UC-003 Leave Workspace
+- [UC-002 Invite User to Workspace](./UC-002-invite-user-to-workspace.md)
+- [UC-003 Accept Workspace Invitation](./UC-003-accept-workspace-invitation.md)
+- UC-004 Remove Workspace Member
+- UC-005 Change Workspace Member Role
 
 ## Project
 
-- UC-004 Create Project
-- UC-005 Update Project
-- UC-006 Delete Project
+- UC-006 Create Project
+- UC-007 Update Project
+- UC-008 Delete Project
 
 ## Task
 
-- UC-007 Create Task
-- UC-008 Update Task
-- UC-009 Delete Task
-- UC-010 Assign Task
-- UC-011 Change Task Status
-
-## Invitation
-
-- UC-012 Accept Invitation
-- UC-013 Reject Invitation
+- UC-009 Create Task
+- UC-010 Update Task
+- UC-011 Delete Task
+- UC-012 Assign Task
+- UC-013 Change Task Status
