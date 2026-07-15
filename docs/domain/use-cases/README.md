@@ -27,12 +27,12 @@ Alternative Flows are identified by the Main Flow step where they originate (e.g
 - [UC-001 Create Workspace](./UC-001-create-workspace.md)
 - [UC-002 Invite User to Workspace](./UC-002-invite-user-to-workspace.md)
 - [UC-003 Accept Workspace Invitation](./UC-003-accept-workspace-invitation.md)
-- UC-004 Remove Workspace Member
-- UC-005 Change Workspace Member Role
+- [UC-004 Remove Workspace Member](./UC-004-remove-workspace-member.md)
+- [UC-005 Change a Workspace Member's Role](./UC-005-change-a-workspace-members-role.md)
 
 ## Project
 
-- UC-006 Create Project
+- [UC-006 Create Project](./UC-006-create-project.md)
 - UC-007 Update Project
 - UC-008 Delete Project
 
