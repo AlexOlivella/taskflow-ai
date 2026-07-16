@@ -48,7 +48,7 @@ erDiagram
 
     User      ||--o{ WorkspaceMembership : has
     User      ||--o{ Task : creates
-    User      o|--o{ Task : assigned
+    User      o|--o{ Task : is responsible for
     User      ||--o{ Invitation : invites
 
     Project   o|--o{ Task : contains

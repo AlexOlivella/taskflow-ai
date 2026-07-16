@@ -2,7 +2,7 @@
 
 ## Goal
 
-Create a new workspace where users can collaborate. The creator becomes its initial Owner.
+Create a workspace.
 
 ## Actor
 
@@ -10,25 +10,18 @@ User
 
 ## Preconditions
 
-- The user is authenticated
+- The user is authenticated.
 
 ## Main Flow
 
-1. The user requests to create a new workspace.
-2. The system prompts the user for the workspace name.
-3. The user provides the workspace name.
-4. The system validates the workspace name.
-5. The system creates the workspace.
-6. The system creates an initial workspace membership with the Owner role for the creator.
-7. The system confirms that the workspace has been created.
+1. The user requests to create a workspace.
+2. The system creates the workspace.
+3. The system creates an initial workspace membership with the Owner role for the creator.
+4. The system informs the user that the workspace has been created.
 
 ## Alternative Flows
 
-### AF-4.1 Invalid workspace name
-
-- **4.a.** The workspace name is empty.
-- **4.b.** The system informs the user that the workspace name is required.
-- **4.c.** The workspace is not created.
+_None._
 
 ## Postconditions
 
@@ -37,4 +30,5 @@ User
 
 ## Business Rules
 
+- A workspace must have a name.
 - The creator of a workspace becomes its initial Owner.

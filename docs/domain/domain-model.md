@@ -79,7 +79,7 @@ Represents a unit of work.
 
 ### Responsibilities
 
-- Represents work that needs to be completed.
+- Represents work that can be tracked and completed within a workspace.
 
 ### Relationships
 
@@ -92,6 +92,7 @@ Represents a unit of work.
 
 - Must belong to exactly one workspace.
 - Cannot change its workspace.
+- Must have a title.
 
 ---
 

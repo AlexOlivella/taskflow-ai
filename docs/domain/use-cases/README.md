@@ -38,8 +38,8 @@ Alternative Flows are identified by the Main Flow step where they originate (e.g
 
 ## Task
 
-- UC-009 Create Task
-- UC-010 Update Task
-- UC-011 Delete Task
-- UC-012 Assign Task
-- UC-013 Change Task Status
+- [UC-009 Create Task](./UC-009-create-task.md)
+- [UC-010 Update Task](./UC-010-update-task.md)
+- [UC-011 Delete Task](./UC-011-delete-task.md)
+- [UC-012 Assign Task](./UC-012-assign-task.md)
+- [UC-013 Change Task Status](./UC-013-change-task-status.md)

@@ -15,10 +15,9 @@ _None._
 ## Main Flow
 
 1. The person accepts the invitation.
-2. The system verifies that the invitation is pending.
-3. The system creates the workspace membership.
-4. The system marks the invitation as accepted.
-5. The system informs the person that they are now a member of the workspace.
+2. The system creates the workspace membership.
+3. The system marks the invitation as accepted.
+4. The system informs the person that they are now a member of the workspace.
 
 ## Alternative Flows
 
@@ -35,4 +34,4 @@ _None._
 
 ## Business Rules
 
-_No additional business rules._
+- Only pending invitations can be accepted.

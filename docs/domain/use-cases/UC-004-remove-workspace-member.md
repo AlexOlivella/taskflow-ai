@@ -20,7 +20,11 @@ User
 
 ## Alternative Flows
 
-_None._
+### AF-2.1 The workspace would have no Owner
+
+- **2.a.** The workspace would have no Owner.
+- **2.b.** The system informs the user that the workspace must always have at least one Owner.
+- **2.c.** The workspace membership is not removed.
 
 ## Postconditions
 
@@ -28,4 +32,4 @@ _None._
 
 ## Business Rules
 
-_No additional business rules._
+- A workspace must always have at least one Owner.

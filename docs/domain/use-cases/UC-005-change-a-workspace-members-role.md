@@ -20,7 +20,7 @@ User
 
 ## Alternative Flows
 
-### AF-2.1 Workspace cannot be left without an Owner
+### AF-2.1 The workspace would have no Owner
 
 - **2.a.** The role change would leave the workspace without an Owner.
 - **2.b.** The system informs the user that the workspace must always have at least one Owner.
