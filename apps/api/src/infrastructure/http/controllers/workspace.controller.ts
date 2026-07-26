@@ -1,0 +1,62 @@
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
+import type { CreateWorkspaceInput } from 'src/application/workspace/create-workspace/create-workspace.input';
+import { CreateWorkspaceOutput } from 'src/application/workspace/create-workspace/create-workspace.output';
+import { CreateWorkspaceUseCase } from 'src/application/workspace/create-workspace/create-workspace.use-case';
+import { DeleteWorkspaceOutput } from 'src/application/workspace/delete-workspace/delete-workspace.output';
+import { DeleteWorkspaceUseCase } from 'src/application/workspace/delete-workspace/delete-workspace.use-case';
+import { GetWorkspaceOutput } from 'src/application/workspace/get-workspace/get-workspace.output';
+import { GetWorkspaceUseCase } from 'src/application/workspace/get-workspace/get-workspace.use-case';
+import { GetWorkspacesOutput } from 'src/application/workspace/get-workspaces/get-workspaces.output';
+import { GetWorkspacesUseCase } from 'src/application/workspace/get-workspaces/get-workspaces.use-case';
+import { UpdateWorkspaceOutput } from 'src/application/workspace/update-workspace/update-workspace.output';
+import { UpdateWorkspaceUseCase } from 'src/application/workspace/update-workspace/update-workspace.use-case';
+
+@Controller('workspaces')
+export class WorkspaceController {
+  constructor(
+    private readonly createWorkspaceUseCase: CreateWorkspaceUseCase,
+    private readonly getWorkspacesUseCase: GetWorkspacesUseCase,
+    private readonly getWorkspaceUseCase: GetWorkspaceUseCase,
+    private readonly updateWorkspaceUseCase: UpdateWorkspaceUseCase,
+    private readonly deleteWorkspaceUseCase: DeleteWorkspaceUseCase,
+  ) {}
+
+  @Post()
+  create(@Body() body: CreateWorkspaceInput): Promise<CreateWorkspaceOutput> {
+    return this.createWorkspaceUseCase.execute(body);
+  }
+
+  @Get()
+  findAll(): Promise<GetWorkspacesOutput> {
+    return this.getWorkspacesUseCase.execute();
+  }
+
+  @Get(':id')
+  findById(@Param('id') id: string): Promise<GetWorkspaceOutput> {
+    return this.getWorkspaceUseCase.execute({ id });
+  }
+
+  @Put(':id')
+  update(
+    @Param('id') id: string,
+    @Body() body: CreateWorkspaceInput,
+  ): Promise<UpdateWorkspaceOutput> {
+    return this.updateWorkspaceUseCase.execute({
+      id,
+      name: body.name,
+    });
+  }
+
+  @Delete(':id')
+  delete(@Param('id') id: string): Promise<DeleteWorkspaceOutput> {
+    return this.deleteWorkspaceUseCase.execute({ id });
+  }
+}
