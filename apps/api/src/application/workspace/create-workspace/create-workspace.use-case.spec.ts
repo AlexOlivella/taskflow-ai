@@ -1,8 +1,7 @@
-import { IdGenerator } from 'src/application/shared/id-generator';
-import { Workspace } from 'src/domain/workspace/workspace.entity';
-import { WorkspaceRepository } from '../workspace.repository';
 import { CreateWorkspaceUseCase } from './create-workspace.use-case';
 import { CreateWorkspaceInput } from './create-workspace.input';
+import { InMemoryWorkspaceRepository } from 'src/infrastructure/persistence/in-memory/in-memory-workspace.repository';
+import { IdGenerator } from 'src/application/shared/id-generator';
 
 describe('CreateWorkspaceUseCase', () => {
   class FakeIdGenerator implements IdGenerator {
@@ -11,23 +10,9 @@ describe('CreateWorkspaceUseCase', () => {
     }
   }
 
-  class InMemoryWorkspaceRepository implements WorkspaceRepository {
-    private readonly workspaces: Workspace[] = [];
-
-    save(workspace: Workspace): Promise<void> {
-      this.workspaces.push(workspace);
-      return Promise.resolve();
-    }
-
-    getWorkspaces(): Workspace[] {
-      return this.workspaces;
-    }
-  }
   it('should create and save a workspace and return its id', async () => {
-    // Arrange
     const workspaceRepository = new InMemoryWorkspaceRepository();
     const idGenerator = new FakeIdGenerator();
-
     const useCase = new CreateWorkspaceUseCase(
       workspaceRepository,
       idGenerator,
@@ -41,12 +26,12 @@ describe('CreateWorkspaceUseCase', () => {
     const output = await useCase.execute(input);
 
     // Assert
-    const workspace = workspaceRepository.getWorkspaces()[0];
+    const workspace = await workspaceRepository.findById(output.id);
 
     expect(output.id).toBe('workspace-123');
-    expect(workspaceRepository.getWorkspaces()).toHaveLength(1);
 
-    expect(workspace.id).toBe('workspace-123');
-    expect(workspace.name).toBe('TaskFlow AI');
+    expect(workspace).not.toBeNull();
+    expect(workspace?.id).toBe(output.id);
+    expect(workspace?.name).toBe('TaskFlow AI');
   });
 });

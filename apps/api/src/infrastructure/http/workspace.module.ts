@@ -30,5 +30,6 @@ import { DeleteWorkspaceUseCase } from 'src/application/workspace/delete-workspa
       useClass: UuidIdGenerator,
     },
   ],
+  exports: [WORKSPACE_REPOSITORY],
 })
 export class WorkspaceModule {}

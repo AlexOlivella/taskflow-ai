@@ -7,7 +7,8 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import type { CreateWorkspaceInput } from 'src/application/workspace/create-workspace/create-workspace.input';
+import { CreateWorkspaceRequest } from '../dto/create-workspace.request';
+import { UpdateWorkspaceRequest } from '../dto/update-workspace.request';
 import { CreateWorkspaceOutput } from 'src/application/workspace/create-workspace/create-workspace.output';
 import { CreateWorkspaceUseCase } from 'src/application/workspace/create-workspace/create-workspace.use-case';
 import { DeleteWorkspaceOutput } from 'src/application/workspace/delete-workspace/delete-workspace.output';
@@ -18,7 +19,6 @@ import { GetWorkspacesOutput } from 'src/application/workspace/get-workspaces/ge
 import { GetWorkspacesUseCase } from 'src/application/workspace/get-workspaces/get-workspaces.use-case';
 import { UpdateWorkspaceOutput } from 'src/application/workspace/update-workspace/update-workspace.output';
 import { UpdateWorkspaceUseCase } from 'src/application/workspace/update-workspace/update-workspace.use-case';
-
 @Controller('workspaces')
 export class WorkspaceController {
   constructor(
@@ -30,8 +30,10 @@ export class WorkspaceController {
   ) {}
 
   @Post()
-  create(@Body() body: CreateWorkspaceInput): Promise<CreateWorkspaceOutput> {
-    return this.createWorkspaceUseCase.execute(body);
+  create(@Body() body: CreateWorkspaceRequest): Promise<CreateWorkspaceOutput> {
+    return this.createWorkspaceUseCase.execute({
+      name: body.name,
+    });
   }
 
   @Get()
@@ -47,7 +49,7 @@ export class WorkspaceController {
   @Put(':id')
   update(
     @Param('id') id: string,
-    @Body() body: CreateWorkspaceInput,
+    @Body() body: UpdateWorkspaceRequest,
   ): Promise<UpdateWorkspaceOutput> {
     return this.updateWorkspaceUseCase.execute({
       id,
