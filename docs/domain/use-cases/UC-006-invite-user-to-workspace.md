@@ -1,4 +1,4 @@
-# UC-002 Invite User to Workspace
+# UC-006 Invite User to Workspace
 
 ## Goal
 

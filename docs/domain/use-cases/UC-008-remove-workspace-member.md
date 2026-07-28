@@ -1,4 +1,4 @@
-# UC-004 Remove Workspace Member
+# UC-008 Remove Workspace Member
 
 ## Goal
 

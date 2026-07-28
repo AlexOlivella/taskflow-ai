@@ -1,4 +1,4 @@
-# UC-003 Accept Workspace Invitation
+# UC-007 Accept Workspace Invitation
 
 ## Goal
 

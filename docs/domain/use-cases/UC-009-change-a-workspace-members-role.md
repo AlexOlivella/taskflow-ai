@@ -1,4 +1,4 @@
-# UC-005 Change a Workspace Member's Role
+# UC-009 Change a Workspace Member's Role
 
 ## Goal
 
