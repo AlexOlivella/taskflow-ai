@@ -9,4 +9,5 @@ export interface ProjectRepository {
   ): Promise<Project | null>;
 
   save(project: Project): Promise<void>;
+  findById(id: string): Promise<Project | null>;
 }

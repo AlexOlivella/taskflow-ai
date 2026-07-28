@@ -6,6 +6,7 @@ import { UuidIdGenerator } from '../ids/uuid-id-generator';
 import { PROJECT_REPOSITORY } from 'src/application/project/project.repository';
 import { InMemoryProjectRepository } from '../persistence/in-memory/in-memory-project.repository';
 import { WorkspaceModule } from './workspace.module';
+import { UpdateProjectUseCase } from 'src/application/project/update-project/update-project.use-case';
 
 @Module({
   imports: [WorkspaceModule],
@@ -13,6 +14,7 @@ import { WorkspaceModule } from './workspace.module';
   providers: [
     // Use cases
     CreateProjectUseCase,
+    UpdateProjectUseCase,
 
     // Infraestructure
     {

@@ -26,6 +26,12 @@ User
 - **2.b.** The system informs the user that the project name already exists within the workspace.
 - **2.c.** The project is not updated.
 
+### AF-2.2 Project does not exist
+
+- **2.a.** The project does not exist.
+- **2.b.** The system informs the user that the project does not exist.
+- **2.c.** The project is not updated.
+
 ## Postconditions
 
 - The project is updated.
