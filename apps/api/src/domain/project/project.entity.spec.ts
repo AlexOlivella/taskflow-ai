@@ -13,7 +13,7 @@ describe('Project', () => {
     );
   });
 
-  it('should create a Project with a valid name', () => {
+  it('should create a project with a valid name', () => {
     const project = new Project('1', 'workspace-1', 'Project 1');
 
     expect(project.id).toBe('1');
@@ -21,7 +21,7 @@ describe('Project', () => {
     expect(project.name).toBe('Project 1');
   });
 
-  it('should rename a Project with a valid name', () => {
+  it('should rename a project with a valid name', () => {
     const project = new Project('1', 'workspace-1', 'Project 1');
 
     project.rename('Project renamed');
