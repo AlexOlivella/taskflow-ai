@@ -49,4 +49,10 @@ export class InMemoryProjectRepository implements ProjectRepository {
 
     return Promise.resolve();
   }
+
+  findByWorkspaceId(workspaceId: string): Promise<Project[]> {
+    return Promise.resolve(
+      this.projects.filter((project) => project.workspaceId === workspaceId),
+    );
+  }
 }

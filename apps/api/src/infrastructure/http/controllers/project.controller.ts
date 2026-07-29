@@ -1,4 +1,12 @@
-import { Body, Controller, Delete, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { CreateProjectOutput } from 'src/application/project/create-project/create-project.output';
 import { CreateProjectUseCase } from 'src/application/project/create-project/create-project.use-case';
 import { CreateProjectRequest } from '../dto/create-project.request';
@@ -7,6 +15,8 @@ import { UpdateProjectUseCase } from 'src/application/project/update-project/upd
 import { UpdateProjectRequest } from '../dto/update-project.request';
 import { DeleteProjectOutput } from 'src/application/project/delete-project/delete-project.output';
 import { DeleteProjectUseCase } from 'src/application/project/delete-project/delete-project.use-case';
+import { GetProjectsOutput } from 'src/application/project/get-projects/get-projects.output';
+import { GetProjectsUseCase } from 'src/application/project/get-projects/get-projects.use-case';
 
 @Controller('workspaces/:workspaceId/projects')
 export class ProjectController {
@@ -14,6 +24,7 @@ export class ProjectController {
     private readonly createProjectUseCase: CreateProjectUseCase,
     private readonly updateProjectUseCase: UpdateProjectUseCase,
     private readonly deleteProjectUseCase: DeleteProjectUseCase,
+    private readonly getProjectsUseCase: GetProjectsUseCase,
   ) {}
 
   @Post()
@@ -40,5 +51,12 @@ export class ProjectController {
 
   @Delete(':id') delete(@Param('id') id: string): Promise<DeleteProjectOutput> {
     return this.deleteProjectUseCase.execute({ id });
+  }
+
+  @Get()
+  findAll(
+    @Param('workspaceId') workspaceId: string,
+  ): Promise<GetProjectsOutput> {
+    return this.getProjectsUseCase.execute({ workspaceId });
   }
 }

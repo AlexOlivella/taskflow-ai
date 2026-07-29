@@ -37,8 +37,8 @@ Alternative Flows are identified by the Main Flow step where they originate (e.g
 ## Project
 
 - [UC-010 Create Project](./UC-010-create-project.md)
-- [UC-011 Get Projects]()
-- [UC-012 Get Project]()
+- [UC-011 Get Projects](./UC-011-get-projects.md)
+- [UC-012 Get Project](./UC-012-get-project.md)
 - [UC-013 Update Project](./UC-013-update-project.md)
 - [UC-014 Delete Project](./UC-014-delete-project.md)
 

@@ -8,6 +8,7 @@ import { InMemoryProjectRepository } from '../persistence/in-memory/in-memory-pr
 import { WorkspaceModule } from './workspace.module';
 import { UpdateProjectUseCase } from 'src/application/project/update-project/update-project.use-case';
 import { DeleteProjectUseCase } from 'src/application/project/delete-project/delete-project.use-case';
+import { GetProjectsUseCase } from 'src/application/project/get-projects/get-projects.use-case';
 
 @Module({
   imports: [WorkspaceModule],
@@ -17,6 +18,7 @@ import { DeleteProjectUseCase } from 'src/application/project/delete-project/del
     CreateProjectUseCase,
     UpdateProjectUseCase,
     DeleteProjectUseCase,
+    GetProjectsUseCase,
 
     // Infraestructure
     {
