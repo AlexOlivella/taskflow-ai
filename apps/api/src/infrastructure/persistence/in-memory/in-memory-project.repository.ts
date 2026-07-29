@@ -35,4 +35,18 @@ export class InMemoryProjectRepository implements ProjectRepository {
     const project = this.projects.find((project) => project.id === id) ?? null;
     return Promise.resolve(project);
   }
+
+  delete(id: string): Promise<void> {
+    const projectIndex = this.projects.findIndex(
+      (project) => project.id === id,
+    );
+
+    if (projectIndex === -1) {
+      return Promise.resolve();
+    }
+
+    this.projects.splice(projectIndex, 1);
+
+    return Promise.resolve();
+  }
 }

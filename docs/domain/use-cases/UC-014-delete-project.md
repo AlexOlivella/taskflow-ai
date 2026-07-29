@@ -25,7 +25,7 @@ _None._
 ## Postconditions
 
 - The project no longer exists.
-- Tasks associated with the deleted project no longer belong to the project.
+- Tasks previously assigned to the deleted project remain in the workspace and become unassigned from any project.
 
 ## Business Rules
 
