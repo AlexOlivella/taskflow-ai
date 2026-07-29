@@ -9,6 +9,7 @@ import { WorkspaceModule } from './workspace.module';
 import { UpdateProjectUseCase } from 'src/application/project/update-project/update-project.use-case';
 import { DeleteProjectUseCase } from 'src/application/project/delete-project/delete-project.use-case';
 import { GetProjectsUseCase } from 'src/application/project/get-projects/get-projects.use-case';
+import { GetProjectUseCase } from 'src/application/project/get-project/get-project.use-case';
 
 @Module({
   imports: [WorkspaceModule],
@@ -19,6 +20,7 @@ import { GetProjectsUseCase } from 'src/application/project/get-projects/get-pro
     UpdateProjectUseCase,
     DeleteProjectUseCase,
     GetProjectsUseCase,
+    GetProjectUseCase,
 
     // Infraestructure
     {

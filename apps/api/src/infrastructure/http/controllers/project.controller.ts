@@ -17,6 +17,8 @@ import { DeleteProjectOutput } from 'src/application/project/delete-project/dele
 import { DeleteProjectUseCase } from 'src/application/project/delete-project/delete-project.use-case';
 import { GetProjectsOutput } from 'src/application/project/get-projects/get-projects.output';
 import { GetProjectsUseCase } from 'src/application/project/get-projects/get-projects.use-case';
+import { GetProjectOutput } from 'src/application/project/get-project/get-project.output';
+import { GetProjectUseCase } from 'src/application/project/get-project/get-project.use-case';
 
 @Controller('workspaces/:workspaceId/projects')
 export class ProjectController {
@@ -25,6 +27,7 @@ export class ProjectController {
     private readonly updateProjectUseCase: UpdateProjectUseCase,
     private readonly deleteProjectUseCase: DeleteProjectUseCase,
     private readonly getProjectsUseCase: GetProjectsUseCase,
+    private readonly getProjectUseCase: GetProjectUseCase,
   ) {}
 
   @Post()
@@ -58,5 +61,10 @@ export class ProjectController {
     @Param('workspaceId') workspaceId: string,
   ): Promise<GetProjectsOutput> {
     return this.getProjectsUseCase.execute({ workspaceId });
+  }
+
+  @Get(':id')
+  findById(@Param('id') id: string): Promise<GetProjectOutput> {
+    return this.getProjectUseCase.execute({ id });
   }
 }
