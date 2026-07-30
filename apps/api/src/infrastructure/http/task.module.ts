@@ -5,6 +5,7 @@ import { InMemoryTaskRepository } from '../persistence/in-memory/in-memory-task.
 import { ID_GENERATOR } from 'src/application/shared/id-generator';
 import { UuidIdGenerator } from '../ids/uuid-id-generator';
 import { TaskController } from './controllers/task.controller';
+import { GetTasksUseCase } from 'src/application/task/get-tasks/get-tasks.use-case';
 
 @Module({
   imports: [],
@@ -12,6 +13,7 @@ import { TaskController } from './controllers/task.controller';
   providers: [
     // Use Cases
     CreateTaskUseCase,
+    GetTasksUseCase,
 
     // Infraestructure
     {

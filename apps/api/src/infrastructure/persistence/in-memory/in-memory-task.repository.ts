@@ -25,4 +25,10 @@ export class InMemoryTaskRepository implements TaskRepository {
       this.tasks.find((taskItem) => taskItem.id === id) || null,
     );
   }
+
+  findByWorkspaceId(workspaceId: string): Promise<Task[]> {
+    return Promise.resolve(
+      this.tasks.filter((taskItem) => taskItem.workspaceId === workspaceId),
+    );
+  }
 }
