@@ -31,4 +31,16 @@ export class InMemoryTaskRepository implements TaskRepository {
       this.tasks.filter((taskItem) => taskItem.workspaceId === workspaceId),
     );
   }
+
+  delete(id: string): Promise<void> {
+    const taskIndex = this.tasks.findIndex((task) => task.id === id);
+
+    if (taskIndex === -1) {
+      return Promise.resolve();
+    }
+
+    this.tasks.splice(taskIndex, 1);
+
+    return Promise.resolve();
+  }
 }

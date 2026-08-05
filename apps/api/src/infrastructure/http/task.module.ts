@@ -8,6 +8,7 @@ import { TaskController } from './controllers/task.controller';
 import { GetTasksUseCase } from 'src/application/task/get-tasks/get-tasks.use-case';
 import { GetTaskUseCase } from 'src/application/task/get-task/get-task.use-case';
 import { UpdateTaskUseCase } from 'src/application/task/update-task/update-task.use-case';
+import { DeleteTaskUseCase } from 'src/application/task/delete-task/delete-task.use-case';
 
 @Module({
   imports: [],
@@ -18,6 +19,7 @@ import { UpdateTaskUseCase } from 'src/application/task/update-task/update-task.
     GetTasksUseCase,
     GetTaskUseCase,
     UpdateTaskUseCase,
+    DeleteTaskUseCase,
 
     // Infraestructure
     {

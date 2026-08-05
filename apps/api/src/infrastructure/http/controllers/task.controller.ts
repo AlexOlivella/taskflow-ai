@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+} from '@nestjs/common';
 import { CreateTaskOutput } from 'src/application/task/create-task/create-task.output';
 import { CreateTaskUseCase } from 'src/application/task/create-task/create-task.use-case';
 import { CreateTaskRequest } from '../dto/create-task.request';
@@ -9,6 +17,8 @@ import { GetTaskUseCase } from 'src/application/task/get-task/get-task.use-case'
 import { UpdateTaskOutput } from 'src/application/task/update-task/update-task.output';
 import { UpdateTaskUseCase } from 'src/application/task/update-task/update-task.use-case';
 import { UpdateTaskRequest } from '../dto/update-task.request';
+import { DeleteTaskOutput } from 'src/application/task/delete-task/delete-task.output';
+import { DeleteTaskUseCase } from 'src/application/task/delete-task/delete-task.use-case';
 
 @Controller('workspaces/:workspaceId/tasks')
 export class TaskController {
@@ -17,6 +27,7 @@ export class TaskController {
     private readonly getTasksUseCase: GetTasksUseCase,
     private readonly getTaskUseCase: GetTaskUseCase,
     private readonly updateTaskUseCase: UpdateTaskUseCase,
+    private readonly deleteTaskUseCase: DeleteTaskUseCase,
   ) {}
 
   @Post()
@@ -47,5 +58,10 @@ export class TaskController {
     @Body() body: UpdateTaskRequest,
   ): Promise<UpdateTaskOutput> {
     return this.updateTaskUseCase.execute({ id, name: body.name });
+  }
+
+  @Delete(':id')
+  delete(@Param('id') id: string): Promise<DeleteTaskOutput> {
+    return this.deleteTaskUseCase.execute({ id });
   }
 }
