@@ -4,12 +4,15 @@ import { CreateTaskUseCase } from 'src/application/task/create-task/create-task.
 import { CreateTaskRequest } from '../dto/create-task.request';
 import { GetTasksOutput } from 'src/application/task/get-tasks/get-tasks.output';
 import { GetTasksUseCase } from 'src/application/task/get-tasks/get-tasks.use-case';
+import { GetTaskOutput } from 'src/application/task/get-task/get-task.output';
+import { GetTaskUseCase } from 'src/application/task/get-task/get-task.use-case';
 
 @Controller('workspaces/:workspaceId/tasks')
 export class TaskController {
   constructor(
     private readonly createTaskUseCase: CreateTaskUseCase,
     private readonly getTasksUseCase: GetTasksUseCase,
+    private readonly getTaskUseCase: GetTaskUseCase,
   ) {}
 
   @Post()
@@ -27,5 +30,10 @@ export class TaskController {
   @Get()
   findAll(@Param('workspaceId') workspaceId: string): Promise<GetTasksOutput> {
     return this.getTasksUseCase.execute({ workspaceId });
+  }
+
+  @Get(':id')
+  findById(@Param('id') id: string): Promise<GetTaskOutput> {
+    return this.getTaskUseCase.execute({ id });
   }
 }
