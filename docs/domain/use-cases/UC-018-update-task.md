@@ -29,3 +29,4 @@ _None._
 ## Business Rules
 
 - A task must have a name.
+- A task may or may not belong to a project.

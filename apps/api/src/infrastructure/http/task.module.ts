@@ -7,6 +7,7 @@ import { UuidIdGenerator } from '../ids/uuid-id-generator';
 import { TaskController } from './controllers/task.controller';
 import { GetTasksUseCase } from 'src/application/task/get-tasks/get-tasks.use-case';
 import { GetTaskUseCase } from 'src/application/task/get-task/get-task.use-case';
+import { UpdateTaskUseCase } from 'src/application/task/update-task/update-task.use-case';
 
 @Module({
   imports: [],
@@ -16,6 +17,7 @@ import { GetTaskUseCase } from 'src/application/task/get-task/get-task.use-case'
     CreateTaskUseCase,
     GetTasksUseCase,
     GetTaskUseCase,
+    UpdateTaskUseCase,
 
     // Infraestructure
     {
