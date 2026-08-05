@@ -45,8 +45,8 @@ Alternative Flows are identified by the Main Flow step where they originate (e.g
 ## Task
 
 - [UC-015 Create Task](./UC-015-create-task.md)
-- [UC-016 Get Tasks]()
-- [UC-017 Get Task]()
+- [UC-016 Get Tasks](./UC-016-get-tasks.md)
+- [UC-017 Get Task](./UC-017-get-task.md)
 - [UC-018 Update Task](./UC-018-update-task.md)
 - [UC-019 Delete Task](./UC-019-delete-task.md)
 - [UC-020 Assign Task](./UC-020-assign-task.md)
