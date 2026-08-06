@@ -1,9 +1,12 @@
+import { TaskStatus } from './task-status.enum';
+
 export class Task {
   readonly id: string;
   readonly workspaceId: string;
   readonly projectId: string | null;
   private _assigneeId: string | null;
   private _name: string;
+  private _status: TaskStatus;
 
   constructor(
     id: string,
@@ -11,6 +14,7 @@ export class Task {
     projectId: string | null,
     assigneeId: string | null,
     name: string,
+    status: TaskStatus = TaskStatus.TODO,
   ) {
     const normalizedName = this.normalizeName(name);
 
@@ -21,6 +25,7 @@ export class Task {
     this.projectId = projectId;
     this._assigneeId = assigneeId;
     this._name = normalizedName;
+    this._status = status;
   }
 
   get name(): string {
@@ -29,6 +34,10 @@ export class Task {
 
   get assigneeId(): string | null {
     return this._assigneeId;
+  }
+
+  get status(): TaskStatus {
+    return this._status;
   }
 
   private normalizeName(name: string): string {
@@ -51,5 +60,9 @@ export class Task {
 
   public assignTo(userId: string | null): void {
     this._assigneeId = userId;
+  }
+
+  public changeStatus(status: TaskStatus): void {
+    this._status = status;
   }
 }

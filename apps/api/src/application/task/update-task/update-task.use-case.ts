@@ -27,6 +27,7 @@ export class UpdateTaskUseCase {
         projectId: task.projectId,
         assigneeId: task.assigneeId,
         name: task.name,
+        status: task.status,
       },
     };
   }

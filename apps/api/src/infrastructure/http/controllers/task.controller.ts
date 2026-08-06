@@ -22,6 +22,9 @@ import { DeleteTaskUseCase } from 'src/application/task/delete-task/delete-task.
 import { AssignTaskOutput } from 'src/application/task/assign-task/assign-task.output';
 import { AssignTaskUseCase } from 'src/application/task/assign-task/assign-task.use-case';
 import { AssignTaskRequest } from '../dto/assign-task.request';
+import { ChangeTaskStatusRequest } from '../dto/change-task-status.request';
+import { ChangeTaskStatusUseCase } from 'src/application/task/change-task-status/change-task-status.use-case';
+import { ChangeTaskStatusOutput } from 'src/application/task/change-task-status/change-task-status.output';
 
 @Controller('workspaces/:workspaceId/tasks')
 export class TaskController {
@@ -32,6 +35,7 @@ export class TaskController {
     private readonly updateTaskUseCase: UpdateTaskUseCase,
     private readonly deleteTaskUseCase: DeleteTaskUseCase,
     private readonly assignTaskUseCase: AssignTaskUseCase,
+    private readonly changeTaskStatusUseCase: ChangeTaskStatusUseCase,
   ) {}
 
   @Post()
@@ -76,5 +80,13 @@ export class TaskController {
     @Body() body: AssignTaskRequest,
   ): Promise<AssignTaskOutput> {
     return this.assignTaskUseCase.execute({ id, assigneeId: body.assigneeId });
+  }
+
+  @Put(':id/status')
+  changeStatus(
+    @Param('id') id: string,
+    @Body() body: ChangeTaskStatusRequest,
+  ): Promise<ChangeTaskStatusOutput> {
+    return this.changeTaskStatusUseCase.execute({ id, status: body.status });
   }
 }

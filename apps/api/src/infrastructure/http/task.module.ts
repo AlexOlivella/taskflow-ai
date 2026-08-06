@@ -10,6 +10,7 @@ import { GetTaskUseCase } from 'src/application/task/get-task/get-task.use-case'
 import { UpdateTaskUseCase } from 'src/application/task/update-task/update-task.use-case';
 import { DeleteTaskUseCase } from 'src/application/task/delete-task/delete-task.use-case';
 import { AssignTaskUseCase } from 'src/application/task/assign-task/assign-task.use-case';
+import { ChangeTaskStatusUseCase } from 'src/application/task/change-task-status/change-task-status.use-case';
 
 @Module({
   imports: [],
@@ -22,6 +23,7 @@ import { AssignTaskUseCase } from 'src/application/task/assign-task/assign-task.
     UpdateTaskUseCase,
     DeleteTaskUseCase,
     AssignTaskUseCase,
+    ChangeTaskStatusUseCase,
 
     // Infraestructure
     {

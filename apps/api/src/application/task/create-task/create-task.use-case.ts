@@ -7,6 +7,7 @@ import {
   type IdGenerator,
 } from 'src/application/shared/id-generator';
 import { Task } from 'src/domain/task/task.entity';
+import { TaskStatus } from 'src/domain/task/task-status.enum';
 
 @Injectable()
 export class CreateTaskUseCase {
@@ -26,6 +27,7 @@ export class CreateTaskUseCase {
       input.projectId,
       input.assigneeId,
       input.name,
+      TaskStatus.TODO,
     );
     await this.taskRepository.save(task);
 

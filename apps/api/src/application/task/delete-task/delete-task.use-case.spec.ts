@@ -2,6 +2,7 @@ import { InMemoryTaskRepository } from 'src/infrastructure/persistence/in-memory
 import { DeleteTaskUseCase } from './delete-task.use-case';
 import { Task } from 'src/domain/task/task.entity';
 import { TaskNotFoundError } from '../errors/task-not-found.error';
+import { TaskStatus } from 'src/domain/task/task-status.enum';
 
 describe('DeleteTaskUseCase', () => {
   it('should delete the task', async () => {
@@ -10,7 +11,14 @@ describe('DeleteTaskUseCase', () => {
     const useCase = new DeleteTaskUseCase(taskRepository);
 
     await taskRepository.save(
-      new Task('task-1', 'workspace-1', 'project-1', null, 'Task to delete'),
+      new Task(
+        'task-1',
+        'workspace-1',
+        'project-1',
+        null,
+        'Task to delete',
+        TaskStatus.TODO,
+      ),
     );
 
     // Act

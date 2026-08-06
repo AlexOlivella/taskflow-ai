@@ -2,6 +2,7 @@ import { InMemoryTaskRepository } from 'src/infrastructure/persistence/in-memory
 import { AssignTaskUseCase } from './assign-task.use-case';
 import { TaskNotFoundError } from '../errors/task-not-found.error';
 import { Task } from 'src/domain/task/task.entity';
+import { TaskStatus } from 'src/domain/task/task-status.enum';
 
 describe('AssignTaskUseCase', () => {
   it('should assign a task to a user', async () => {
@@ -9,7 +10,14 @@ describe('AssignTaskUseCase', () => {
     const taskRepository = new InMemoryTaskRepository();
     const useCase = new AssignTaskUseCase(taskRepository);
     await taskRepository.save(
-      new Task('task-1', 'workspace-1', 'project-1', null, 'Task 1'),
+      new Task(
+        'task-1',
+        'workspace-1',
+        'project-1',
+        null,
+        'Task 1',
+        TaskStatus.TODO,
+      ),
     );
 
     // Act
@@ -37,7 +45,14 @@ describe('AssignTaskUseCase', () => {
     const taskRepository = new InMemoryTaskRepository();
     const useCase = new AssignTaskUseCase(taskRepository);
     await taskRepository.save(
-      new Task('task-1', 'workspace-1', 'project-1', 'user-1', 'Task 1'),
+      new Task(
+        'task-1',
+        'workspace-1',
+        'project-1',
+        'user-1',
+        'Task 1',
+        TaskStatus.TODO,
+      ),
     );
 
     // Act

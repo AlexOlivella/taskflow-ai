@@ -2,13 +2,14 @@ import { InMemoryTaskRepository } from 'src/infrastructure/persistence/in-memory
 import { UpdateTaskUseCase } from './update-task.use-case';
 import { Task } from 'src/domain/task/task.entity';
 import { TaskNotFoundError } from '../errors/task-not-found.error';
+import { TaskStatus } from 'src/domain/task/task-status.enum';
 
 describe('UpdateTaskUseCase', () => {
   it('should update the task', async () => {
     // Arrange
     const taskRepository = new InMemoryTaskRepository();
     await taskRepository.save(
-      new Task('task-1', 'workspace-1', null, null, 'Task 1'),
+      new Task('task-1', 'workspace-1', null, null, 'Task 1', TaskStatus.TODO),
     );
     const useCase = new UpdateTaskUseCase(taskRepository);
 

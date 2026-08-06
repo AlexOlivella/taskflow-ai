@@ -2,6 +2,7 @@ import { InMemoryTaskRepository } from 'src/infrastructure/persistence/in-memory
 import { GetTaskUseCase } from './get-task.use-case';
 import { Task } from 'src/domain/task/task.entity';
 import { TaskNotFoundError } from '../errors/task-not-found.error';
+import { TaskStatus } from 'src/domain/task/task-status.enum';
 
 describe('GetTaskUseCase', () => {
   it('should return the task', async () => {
@@ -9,7 +10,14 @@ describe('GetTaskUseCase', () => {
     const taskRepository = new InMemoryTaskRepository();
     const useCase = new GetTaskUseCase(taskRepository);
     await taskRepository.save(
-      new Task('task-1', 'workspace-1', 'project-1', null, 'Task 1'),
+      new Task(
+        'task-1',
+        'workspace-1',
+        'project-1',
+        null,
+        'Task 1',
+        TaskStatus.TODO,
+      ),
     );
 
     // Act
@@ -20,6 +28,7 @@ describe('GetTaskUseCase', () => {
     expect(output.workspaceId).toBe('workspace-1');
     expect(output.projectId).toBe('project-1');
     expect(output.name).toBe('Task 1');
+    expect(output.status).toBe(TaskStatus.TODO);
   });
 
   it('should throw when task does not exist', async () => {

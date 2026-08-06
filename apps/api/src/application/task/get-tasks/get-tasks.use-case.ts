@@ -21,6 +21,7 @@ export class GetTasksUseCase {
         projectId: taskElement.projectId,
         assigneeId: taskElement.assigneeId,
         name: taskElement.name,
+        status: taskElement.status,
       })),
     };
   }
