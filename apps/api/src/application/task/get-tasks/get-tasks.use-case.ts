@@ -19,6 +19,7 @@ export class GetTasksUseCase {
         id: taskElement.id,
         workspaceId: taskElement.workspaceId,
         projectId: taskElement.projectId,
+        assigneeId: taskElement.assigneeId,
         name: taskElement.name,
       })),
     };

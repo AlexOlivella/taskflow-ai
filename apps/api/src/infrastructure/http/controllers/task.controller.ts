@@ -19,6 +19,9 @@ import { UpdateTaskUseCase } from 'src/application/task/update-task/update-task.
 import { UpdateTaskRequest } from '../dto/update-task.request';
 import { DeleteTaskOutput } from 'src/application/task/delete-task/delete-task.output';
 import { DeleteTaskUseCase } from 'src/application/task/delete-task/delete-task.use-case';
+import { AssignTaskOutput } from 'src/application/task/assign-task/assign-task.output';
+import { AssignTaskUseCase } from 'src/application/task/assign-task/assign-task.use-case';
+import { AssignTaskRequest } from '../dto/assign-task.request';
 
 @Controller('workspaces/:workspaceId/tasks')
 export class TaskController {
@@ -28,6 +31,7 @@ export class TaskController {
     private readonly getTaskUseCase: GetTaskUseCase,
     private readonly updateTaskUseCase: UpdateTaskUseCase,
     private readonly deleteTaskUseCase: DeleteTaskUseCase,
+    private readonly assignTaskUseCase: AssignTaskUseCase,
   ) {}
 
   @Post()
@@ -38,6 +42,7 @@ export class TaskController {
     return this.createTaskUseCase.execute({
       workspaceId,
       projectId: body.projectId ?? null,
+      assigneeId: body.assigneeId ?? null,
       name: body.name,
     });
   }
@@ -63,5 +68,13 @@ export class TaskController {
   @Delete(':id')
   delete(@Param('id') id: string): Promise<DeleteTaskOutput> {
     return this.deleteTaskUseCase.execute({ id });
+  }
+
+  @Put(':id/assignee')
+  assignTo(
+    @Param('id') id: string,
+    @Body() body: AssignTaskRequest,
+  ): Promise<AssignTaskOutput> {
+    return this.assignTaskUseCase.execute({ id, assigneeId: body.assigneeId });
   }
 }

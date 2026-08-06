@@ -1,4 +1,5 @@
 export class CreateTaskRequest {
-  projectId?: string;
+  projectId!: string | null;
+  assigneeId!: string | null;
   name!: string;
 }

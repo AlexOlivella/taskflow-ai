@@ -10,7 +10,7 @@ describe('DeleteTaskUseCase', () => {
     const useCase = new DeleteTaskUseCase(taskRepository);
 
     await taskRepository.save(
-      new Task('task-1', 'workspace-1', 'project-1', 'Task to delete'),
+      new Task('task-1', 'workspace-1', 'project-1', null, 'Task to delete'),
     );
 
     // Act

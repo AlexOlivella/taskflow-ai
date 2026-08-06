@@ -9,7 +9,7 @@ describe('GetTaskUseCase', () => {
     const taskRepository = new InMemoryTaskRepository();
     const useCase = new GetTaskUseCase(taskRepository);
     await taskRepository.save(
-      new Task('task-1', 'workspace-1', 'project-1', 'Task 1'),
+      new Task('task-1', 'workspace-1', 'project-1', null, 'Task 1'),
     );
 
     // Act

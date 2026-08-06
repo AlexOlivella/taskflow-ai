@@ -8,7 +8,7 @@ describe('UpdateTaskUseCase', () => {
     // Arrange
     const taskRepository = new InMemoryTaskRepository();
     await taskRepository.save(
-      new Task('task-1', 'workspace-1', null, 'Task 1'),
+      new Task('task-1', 'workspace-1', null, null, 'Task 1'),
     );
     const useCase = new UpdateTaskUseCase(taskRepository);
 

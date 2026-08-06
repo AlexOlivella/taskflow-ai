@@ -20,7 +20,13 @@ export class CreateTaskUseCase {
 
   async execute(input: CreateTaskInput): Promise<CreateTaskOutput> {
     const id = this.idGenerator.generate();
-    const task = new Task(id, input.workspaceId, input.projectId, input.name);
+    const task = new Task(
+      id,
+      input.workspaceId,
+      input.projectId,
+      input.assigneeId,
+      input.name,
+    );
     await this.taskRepository.save(task);
 
     return { id };

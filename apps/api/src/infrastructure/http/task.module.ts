@@ -9,6 +9,7 @@ import { GetTasksUseCase } from 'src/application/task/get-tasks/get-tasks.use-ca
 import { GetTaskUseCase } from 'src/application/task/get-task/get-task.use-case';
 import { UpdateTaskUseCase } from 'src/application/task/update-task/update-task.use-case';
 import { DeleteTaskUseCase } from 'src/application/task/delete-task/delete-task.use-case';
+import { AssignTaskUseCase } from 'src/application/task/assign-task/assign-task.use-case';
 
 @Module({
   imports: [],
@@ -20,6 +21,7 @@ import { DeleteTaskUseCase } from 'src/application/task/delete-task/delete-task.
     GetTaskUseCase,
     UpdateTaskUseCase,
     DeleteTaskUseCase,
+    AssignTaskUseCase,
 
     // Infraestructure
     {

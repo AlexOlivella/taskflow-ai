@@ -20,6 +20,7 @@ export class GetTaskUseCase {
       id: task.id,
       workspaceId: task.workspaceId,
       projectId: task.projectId,
+      assigneeId: task.assigneeId,
       name: task.name,
     };
   }

@@ -19,6 +19,7 @@ describe('CreateTaskUseCase', () => {
     const input: CreateTaskInput = {
       workspaceId: 'workspace-1',
       projectId: null,
+      assigneeId: null,
       name: 'Task 1',
     };
     // Act

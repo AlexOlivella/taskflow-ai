@@ -8,10 +8,10 @@ describe('GetTasksUseCase', () => {
     const taskRepository = new InMemoryTaskRepository();
     const useCase = new GetTasksUseCase(taskRepository);
     await taskRepository.save(
-      new Task('task-1', 'workspace-1', null, 'Task 1'),
+      new Task('task-1', 'workspace-1', null, null, 'Task 1'),
     );
     await taskRepository.save(
-      new Task('task-2', 'workspace-1', 'project-1', 'Task 2'),
+      new Task('task-2', 'workspace-1', 'project-1', null, 'Task 2'),
     );
     // Act
     const output = await useCase.execute({ workspaceId: 'workspace-1' });
@@ -43,13 +43,13 @@ describe('GetTasksUseCase', () => {
     const taskRepository = new InMemoryTaskRepository();
     const useCase = new GetTasksUseCase(taskRepository);
     await taskRepository.save(
-      new Task('task-1', 'workspace-1', null, 'Task 1'),
+      new Task('task-1', 'workspace-1', null, null, 'Task 1'),
     );
     await taskRepository.save(
-      new Task('task-2', 'workspace-1', 'project-1', 'Task 2'),
+      new Task('task-2', 'workspace-1', 'project-1', null, 'Task 2'),
     );
     await taskRepository.save(
-      new Task('task-3', 'workspace-2', 'project-1', 'Task 3'),
+      new Task('task-3', 'workspace-2', 'project-1', null, 'Task 3'),
     );
     // Act
     const output = await useCase.execute({ workspaceId: 'workspace-1' });
