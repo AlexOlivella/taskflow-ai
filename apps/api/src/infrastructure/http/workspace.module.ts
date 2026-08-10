@@ -9,6 +9,15 @@ import { GetWorkspacesUseCase } from 'src/application/workspace/get-workspaces/g
 import { GetWorkspaceUseCase } from 'src/application/workspace/get-workspace/get-workspace.use-case';
 import { UpdateWorkspaceUseCase } from 'src/application/workspace/update-workspace/update-workspace.use-case';
 import { DeleteWorkspaceUseCase } from 'src/application/workspace/delete-workspace/delete-workspace.use-case';
+import { InviteUserToWorkspaceUseCase } from 'src/application/workspace/invite-user-to-workspace/inviteUserToWorkspace.use-case';
+import { USER_REPOSITORY } from 'src/application/user/user.repository';
+import { InMemoryUserRepository } from '../persistence/in-memory/in-memory-user.repository';
+import { INVITATION_REPOSITORY } from 'src/application/invitation/invitation.repository';
+import { InMemoryInvitationRepository } from '../persistence/in-memory/in-memory-invitation.repository';
+import { WORKSPACEMEMBERSHIP_REPOSITORY } from 'src/application/workspaceMembership/workspaceMembership.repository';
+import { INVITATION_SENDER } from 'src/application/workspace/invite-user-to-workspace/invitation.sender';
+import { InMemoryInvitationSender } from '../persistence/in-memory/in-memory-invitation.sender';
+import { InMemoryWorkspaceMembershipRepository } from '../persistence/in-memory/in-memory-workspaceMembership.repository';
 
 @Module({
   controllers: [WorkspaceController],
@@ -19,6 +28,7 @@ import { DeleteWorkspaceUseCase } from 'src/application/workspace/delete-workspa
     GetWorkspaceUseCase,
     UpdateWorkspaceUseCase,
     DeleteWorkspaceUseCase,
+    InviteUserToWorkspaceUseCase,
 
     // Infrastructure
     {
@@ -28,6 +38,22 @@ import { DeleteWorkspaceUseCase } from 'src/application/workspace/delete-workspa
     {
       provide: ID_GENERATOR,
       useClass: UuidIdGenerator,
+    },
+    {
+      provide: USER_REPOSITORY,
+      useClass: InMemoryUserRepository,
+    },
+    {
+      provide: INVITATION_REPOSITORY,
+      useClass: InMemoryInvitationRepository,
+    },
+    {
+      provide: WORKSPACEMEMBERSHIP_REPOSITORY,
+      useClass: InMemoryWorkspaceMembershipRepository,
+    },
+    {
+      provide: INVITATION_SENDER,
+      useClass: InMemoryInvitationSender,
     },
   ],
   exports: [WORKSPACE_REPOSITORY],
