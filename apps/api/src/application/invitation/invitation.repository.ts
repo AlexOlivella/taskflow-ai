@@ -8,4 +8,5 @@ export interface InvitationRepository {
     workspaceId: string,
     inviteeEmail: string,
   ): Promise<Invitation | null>;
+  findById(id: string): Promise<Invitation | null>;
 }

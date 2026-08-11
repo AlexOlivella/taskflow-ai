@@ -22,6 +22,8 @@ import { UpdateWorkspaceUseCase } from 'src/application/workspace/update-workspa
 import { InviteUserToWorkspaceRequest } from '../dto/invite-user-to-workspace.request';
 import { InviteUserToWorkspaceOutput } from 'src/application/workspace/invite-user-to-workspace/inviteUserToWorkspace.output';
 import { InviteUserToWorkspaceUseCase } from 'src/application/workspace/invite-user-to-workspace/inviteUserToWorkspace.use-case';
+import { AcceptWorkspaceInvitationOutput } from 'src/application/workspace/accept-workspace-invitation/accept-workspace-invitation.output';
+import { AcceptWorkspaceInvitationUseCase } from 'src/application/workspace/accept-workspace-invitation/accept-workspace-invitation.use-case';
 @Controller('workspaces')
 export class WorkspaceController {
   constructor(
@@ -31,6 +33,7 @@ export class WorkspaceController {
     private readonly updateWorkspaceUseCase: UpdateWorkspaceUseCase,
     private readonly deleteWorkspaceUseCase: DeleteWorkspaceUseCase,
     private readonly inviteUserToWorkspaceUseCase: InviteUserToWorkspaceUseCase,
+    private readonly acceptWorkspaceInvitationUseCase: AcceptWorkspaceInvitationUseCase,
   ) {}
 
   @Post()
@@ -76,5 +79,12 @@ export class WorkspaceController {
       inviterId: 'user-1',
       inviteeEmail: body.inviteeEmail,
     });
+  }
+
+  @Post('invitations/:invitationId/accept')
+  acceptInvitation(
+    @Param('invitationId') invitationId: string,
+  ): Promise<AcceptWorkspaceInvitationOutput> {
+    return this.acceptWorkspaceInvitationUseCase.execute({ invitationId });
   }
 }

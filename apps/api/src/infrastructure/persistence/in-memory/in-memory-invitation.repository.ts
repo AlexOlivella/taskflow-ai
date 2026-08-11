@@ -32,4 +32,10 @@ export class InMemoryInvitationRepository implements InvitationRepository {
       ) ?? null,
     );
   }
+
+  findById(id: string): Promise<Invitation | null> {
+    return Promise.resolve(
+      this.invitations.find((invitation) => invitation.id === id) ?? null,
+    );
+  }
 }
