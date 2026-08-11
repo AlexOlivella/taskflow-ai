@@ -4,6 +4,7 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
   Put,
 } from '@nestjs/common';
@@ -26,6 +27,9 @@ import { AcceptWorkspaceInvitationOutput } from 'src/application/workspace/accep
 import { AcceptWorkspaceInvitationUseCase } from 'src/application/workspace/accept-workspace-invitation/accept-workspace-invitation.use-case';
 import { RemoveWorkspaceMemberUseCase } from 'src/application/workspace/remove-workspace-member/remove-workspace-member.use-case';
 import { RemoveWorkspaceMemberOutput } from 'src/application/workspace/remove-workspace-member/remove-workspace-member.output';
+import { ChangeWorkspaceMemberRoleUseCase } from 'src/application/workspace/change-workspace-member-role/change-workspace-member-role.use-case';
+import { ChangeWorkspaceMemberRoleOutput } from 'src/application/workspace/change-workspace-member-role/change-workspace-member-role.output';
+import { ChangeWorkspaceMemberRoleRequest } from '../dto/change-workspace-member-role.request';
 @Controller('workspaces')
 export class WorkspaceController {
   constructor(
@@ -37,6 +41,7 @@ export class WorkspaceController {
     private readonly inviteUserToWorkspaceUseCase: InviteUserToWorkspaceUseCase,
     private readonly acceptWorkspaceInvitationUseCase: AcceptWorkspaceInvitationUseCase,
     private readonly removeWorkspaceMemberUseCase: RemoveWorkspaceMemberUseCase,
+    private readonly changeWorkspaceMemberRoleUseCase: ChangeWorkspaceMemberRoleUseCase,
   ) {}
 
   @Post()
@@ -99,6 +104,19 @@ export class WorkspaceController {
     return this.removeWorkspaceMemberUseCase.execute({
       workspaceId,
       userId,
+    });
+  }
+
+  @Patch(':workspaceId/members/:userId')
+  changeMemberRole(
+    @Param('workspaceId') workspaceId: string,
+    @Param('userId') userId: string,
+    @Body() body: ChangeWorkspaceMemberRoleRequest,
+  ): Promise<ChangeWorkspaceMemberRoleOutput> {
+    return this.changeWorkspaceMemberRoleUseCase.execute({
+      workspaceId,
+      userId,
+      role: body.role,
     });
   }
 }

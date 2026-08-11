@@ -68,14 +68,15 @@ export class AcceptWorkspaceInvitationUseCase {
         new User(userId, 'Temporary User', invitation.inviteeEmail),
       );
     }
-
-    await this.workspaceMembershipRepository.save(
-      new WorkspaceMembership(
-        this.idGenerator.generate(),
-        invitation.workspaceId,
-        userId,
-      ),
+    const membership = new WorkspaceMembership(
+      this.idGenerator.generate(),
+      invitation.workspaceId,
+      userId,
     );
+
+    console.log('Created workspace membership:', membership);
+
+    await this.workspaceMembershipRepository.save(membership);
 
     invitation.accept();
 
