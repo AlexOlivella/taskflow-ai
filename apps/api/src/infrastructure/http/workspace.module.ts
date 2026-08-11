@@ -19,6 +19,7 @@ import { INVITATION_SENDER } from 'src/application/workspace/invite-user-to-work
 import { InMemoryInvitationSender } from '../persistence/in-memory/in-memory-invitation.sender';
 import { InMemoryWorkspaceMembershipRepository } from '../persistence/in-memory/in-memory-workspaceMembership.repository';
 import { AcceptWorkspaceInvitationUseCase } from 'src/application/workspace/accept-workspace-invitation/accept-workspace-invitation.use-case';
+import { RemoveWorkspaceMemberUseCase } from 'src/application/workspace/remove-workspace-member/remove-workspace-member.use-case';
 
 @Module({
   controllers: [WorkspaceController],
@@ -31,6 +32,7 @@ import { AcceptWorkspaceInvitationUseCase } from 'src/application/workspace/acce
     DeleteWorkspaceUseCase,
     InviteUserToWorkspaceUseCase,
     AcceptWorkspaceInvitationUseCase,
+    RemoveWorkspaceMemberUseCase,
 
     // Infrastructure
     {

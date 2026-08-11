@@ -24,6 +24,8 @@ import { InviteUserToWorkspaceOutput } from 'src/application/workspace/invite-us
 import { InviteUserToWorkspaceUseCase } from 'src/application/workspace/invite-user-to-workspace/inviteUserToWorkspace.use-case';
 import { AcceptWorkspaceInvitationOutput } from 'src/application/workspace/accept-workspace-invitation/accept-workspace-invitation.output';
 import { AcceptWorkspaceInvitationUseCase } from 'src/application/workspace/accept-workspace-invitation/accept-workspace-invitation.use-case';
+import { RemoveWorkspaceMemberUseCase } from 'src/application/workspace/remove-workspace-member/remove-workspace-member.use-case';
+import { RemoveWorkspaceMemberOutput } from 'src/application/workspace/remove-workspace-member/remove-workspace-member.output';
 @Controller('workspaces')
 export class WorkspaceController {
   constructor(
@@ -34,6 +36,7 @@ export class WorkspaceController {
     private readonly deleteWorkspaceUseCase: DeleteWorkspaceUseCase,
     private readonly inviteUserToWorkspaceUseCase: InviteUserToWorkspaceUseCase,
     private readonly acceptWorkspaceInvitationUseCase: AcceptWorkspaceInvitationUseCase,
+    private readonly removeWorkspaceMemberUseCase: RemoveWorkspaceMemberUseCase,
   ) {}
 
   @Post()
@@ -86,5 +89,16 @@ export class WorkspaceController {
     @Param('invitationId') invitationId: string,
   ): Promise<AcceptWorkspaceInvitationOutput> {
     return this.acceptWorkspaceInvitationUseCase.execute({ invitationId });
+  }
+
+  @Delete(':workspaceId/members/:userId')
+  removeMember(
+    @Param('workspaceId') workspaceId: string,
+    @Param('userId') userId: string,
+  ): Promise<RemoveWorkspaceMemberOutput> {
+    return this.removeWorkspaceMemberUseCase.execute({
+      workspaceId,
+      userId,
+    });
   }
 }

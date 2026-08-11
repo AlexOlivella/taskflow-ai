@@ -10,4 +10,6 @@ export interface WorkspaceMembershipRepository {
     workspaceId: string,
     memberId: string,
   ): Promise<WorkspaceMembership | null>;
+  findByWorkspaceId(workspaceId: string): Promise<WorkspaceMembership[]>;
+  delete(workspaceId: string, memberId: string): Promise<void>;
 }

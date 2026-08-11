@@ -30,4 +30,29 @@ export class InMemoryWorkspaceMembershipRepository implements WorkspaceMembershi
       ) ?? null,
     );
   }
+
+  findByWorkspaceId(workspaceId: string): Promise<WorkspaceMembership[]> {
+    return Promise.resolve(
+      this.workspaceMemberships.filter(
+        (workspaceMembershipItem) =>
+          workspaceMembershipItem.workspaceId === workspaceId,
+      ),
+    );
+  }
+
+  delete(workspaceId: string, memberId: string): Promise<void> {
+    const workspaceMembershipPosition = this.workspaceMemberships.findIndex(
+      (workspaceMembershipItem) =>
+        workspaceMembershipItem.workspaceId === workspaceId &&
+        workspaceMembershipItem.userId === memberId,
+    );
+
+    if (workspaceMembershipPosition === -1) {
+      return Promise.resolve();
+    }
+
+    this.workspaceMemberships.splice(workspaceMembershipPosition, 1);
+
+    return Promise.resolve();
+  }
 }
