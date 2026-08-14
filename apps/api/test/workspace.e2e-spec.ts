@@ -13,6 +13,7 @@ import { AcceptWorkspaceInvitationOutput } from 'src/application/workspace/accep
 import { RemoveWorkspaceMemberOutput } from 'src/application/workspace/remove-workspace-member/remove-workspace-member.output';
 import { ChangeWorkspaceMemberRoleOutput } from 'src/application/workspace/change-workspace-member-role/change-workspace-member-role.output';
 import { WorkspaceRole } from 'src/domain/workspaceMembership/workspaceRole.enum';
+import { createWorkspace } from './utils/e2e-helpers';
 
 type ErrorResponse = {
   statusCode: number;
@@ -47,45 +48,32 @@ describe('Workspace (e2e)', () => {
       name: 'My Workspace',
     };
 
-    const createResponse = await request(getApp().getHttpServer())
-      .post('/workspaces')
-      .send(input);
-
-    const createdWorkspace = createResponse.body as CreateWorkspaceOutput;
+    const workspace = await createWorkspace(getApp(), input);
 
     // Act
     const response = await request(getApp().getHttpServer()).get(
-      `/workspaces/${createdWorkspace.id}`,
+      `/workspaces/${workspace.id}`,
     );
 
     const body = response.body as GetWorkspaceOutput;
 
     // Assert
     expect(response.status).toBe(200);
-    expect(body.workspace.id).toBe(createdWorkspace.id);
+    expect(body.workspace.id).toBe(workspace.id);
     expect(body.workspace.name).toBe(input.name);
   });
 
   it('should get all workspaces', async () => {
     // Arrange
-    const workspace1: CreateWorkspaceInput = {
+    const input1: CreateWorkspaceInput = {
       name: 'Workspace 1',
     };
-    const workspace2: CreateWorkspaceInput = {
+    const input2: CreateWorkspaceInput = {
       name: 'Workspace 2',
     };
 
-    const createResponse1 = await request(getApp().getHttpServer())
-      .post('/workspaces')
-      .send(workspace1);
-
-    const createdWorkspace1 = createResponse1.body as CreateWorkspaceOutput;
-
-    const createResponse2 = await request(getApp().getHttpServer())
-      .post('/workspaces')
-      .send(workspace2);
-
-    const createdWorkspace2 = createResponse2.body as CreateWorkspaceOutput;
+    const workspace1 = await createWorkspace(getApp(), input1);
+    const workspace2 = await createWorkspace(getApp(), input2);
 
     // Act
     const response = await request(getApp().getHttpServer()).get(`/workspaces`);
@@ -97,12 +85,12 @@ describe('Workspace (e2e)', () => {
     expect(body.workspaces).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          id: createdWorkspace1.id,
-          name: workspace1.name,
+          id: workspace1.id,
+          name: input1.name,
         }),
         expect.objectContaining({
-          id: createdWorkspace2.id,
-          name: workspace2.name,
+          id: workspace2.id,
+          name: input2.name,
         }),
       ]),
     );
@@ -125,18 +113,10 @@ describe('Workspace (e2e)', () => {
 
   it('should update a workspace', async () => {
     // Arrange
-    const input: CreateWorkspaceInput = {
-      name: 'Workspace 1',
-    };
-
-    const createResponse = await request(getApp().getHttpServer())
-      .post('/workspaces')
-      .send(input);
-
-    const createdWorkspace = createResponse.body as CreateWorkspaceOutput;
+    const workspace = await createWorkspace(getApp());
 
     const workspaceUpdate: UpdateWorkspaceInput = {
-      id: createdWorkspace.id,
+      id: workspace.id,
       name: 'Workspace updated',
     };
     // Act
@@ -147,7 +127,7 @@ describe('Workspace (e2e)', () => {
 
     // Assert
     expect(updatedResponse.status).toBe(200);
-    expect(body.workspace.id).toBe(createdWorkspace.id);
+    expect(body.workspace.id).toBe(workspace.id);
     expect(body.workspace.name).toBe(workspaceUpdate.name);
   });
 
@@ -169,29 +149,21 @@ describe('Workspace (e2e)', () => {
 
   it('should delete a workspace', async () => {
     // Arrange
-    const input: CreateWorkspaceInput = {
-      name: 'Workspace 1',
-    };
-
-    const createResponse = await request(getApp().getHttpServer())
-      .post('/workspaces')
-      .send(input);
-
-    const createdWorkspace = createResponse.body as CreateWorkspaceOutput;
+    const workspace = await createWorkspace(getApp());
 
     // Act
     const deleteResponse = await request(getApp().getHttpServer()).delete(
-      `/workspaces/${createdWorkspace.id}`,
+      `/workspaces/${workspace.id}`,
     );
 
     const body = deleteResponse.body as DeleteWorkspaceOutput;
 
     // Assert
     expect(deleteResponse.status).toBe(200);
-    expect(body.id).toBe(createdWorkspace.id);
+    expect(body.id).toBe(workspace.id);
 
     const getResponse = await request(getApp().getHttpServer()).get(
-      `/workspaces/${createdWorkspace.id}`,
+      `/workspaces/${workspace.id}`,
     );
 
     expect(getResponse.status).toBe(404);
@@ -215,25 +187,17 @@ describe('Workspace (e2e)', () => {
 
   it('should invite a user to the workspace', async () => {
     // Arrange
-    const workspace: CreateWorkspaceInput = {
-      name: 'Workspace 1',
-    };
-
-    const createWorkspace = await request(getApp().getHttpServer())
-      .post('/workspaces')
-      .send(workspace);
-
-    const createResponse = createWorkspace.body as CreateWorkspaceOutput;
+    const workspace = await createWorkspace(getApp());
 
     const invitation = {
-      workspaceId: createResponse.id,
+      workspaceId: workspace.id,
       inviterId: 'user-1',
       inviteeEmail: 'invitee@email.com',
     };
 
     // Act
     const inviteUser = await request(getApp().getHttpServer())
-      .post(`/workspaces/${createResponse.id}/invitations`)
+      .post(`/workspaces/${workspace.id}/invitations`)
       .send({ inviteeEmail: invitation.inviteeEmail });
 
     const inviteResponse = inviteUser.body as InviteUserToWorkspaceOutput;
@@ -249,28 +213,19 @@ describe('Workspace (e2e)', () => {
 
   it('should not invite a user who already has a pending invitation', async () => {
     // Arrange
-    const workspace = {
-      name: 'Workspace 1',
-    };
-
-    const createWorkspace = await request(getApp().getHttpServer())
-      .post('/workspaces')
-      .send(workspace);
-
-    const createWorkspaceResponse =
-      createWorkspace.body as CreateWorkspaceOutput;
+    const workspace = await createWorkspace(getApp());
 
     const invitation = {
       inviteeEmail: 'invitee@email.com',
     };
 
     await request(getApp().getHttpServer())
-      .post(`/workspaces/${createWorkspaceResponse.id}/invitations`)
+      .post(`/workspaces/${workspace.id}/invitations`)
       .send(invitation);
 
     // Act
     const inviteSameUser = await request(getApp().getHttpServer())
-      .post(`/workspaces/${createWorkspaceResponse.id}/invitations`)
+      .post(`/workspaces/${workspace.id}/invitations`)
       .send(invitation);
 
     const body = inviteSameUser.body as ErrorResponse;
@@ -282,23 +237,14 @@ describe('Workspace (e2e)', () => {
 
   it('should accept an invitation', async () => {
     // Arrange
-    const workspace = {
-      name: 'Workspace 1',
-    };
-
-    const createWorkspace = await request(getApp().getHttpServer())
-      .post('/workspaces')
-      .send(workspace);
-
-    const createWorkspaceResponse =
-      createWorkspace.body as CreateWorkspaceOutput;
+    const workspace = await createWorkspace(getApp());
 
     const invitation = {
       inviteeEmail: 'invitee@email.com',
     };
 
     const createInvitationRequest = await request(getApp().getHttpServer())
-      .post(`/workspaces/${createWorkspaceResponse.id}/invitations`)
+      .post(`/workspaces/${workspace.id}/invitations`)
       .send(invitation);
 
     const createInvitationResponse =
@@ -326,23 +272,14 @@ describe('Workspace (e2e)', () => {
 
   it('should return 404 if invitation is not pending', async () => {
     // Arrange
-    const workspace = {
-      name: 'Workspace 1',
-    };
-
-    const createWorkspace = await request(getApp().getHttpServer())
-      .post('/workspaces')
-      .send(workspace);
-
-    const createWorkspaceResponse =
-      createWorkspace.body as CreateWorkspaceOutput;
+    const workspace = await createWorkspace(getApp());
 
     const invitation = {
       inviteeEmail: 'invitee@email.com',
     };
 
     const createInvitationRequest = await request(getApp().getHttpServer())
-      .post(`/workspaces/${createWorkspaceResponse.id}/invitations`)
+      .post(`/workspaces/${workspace.id}/invitations`)
       .send(invitation);
 
     const createInvitationResponse =
@@ -367,23 +304,14 @@ describe('Workspace (e2e)', () => {
 
   it('should remove a member from the workspace', async () => {
     // Arrange
-    const workspace = {
-      name: 'Workspace 1',
-    };
-
-    const createWorkspace = await request(getApp().getHttpServer())
-      .post('/workspaces')
-      .send(workspace);
-
-    const createWorkspaceResponse =
-      createWorkspace.body as CreateWorkspaceOutput;
+    const workspace = await createWorkspace(getApp());
 
     const invitation = {
       inviteeEmail: 'invitee@email.com',
     };
 
     const createInvitationRequest = await request(getApp().getHttpServer())
-      .post(`/workspaces/${createWorkspaceResponse.id}/invitations`)
+      .post(`/workspaces/${workspace.id}/invitations`)
       .send(invitation);
 
     const createInvitationResponse =
@@ -400,7 +328,7 @@ describe('Workspace (e2e)', () => {
 
     // Act
     const removeMemberRequest = await request(getApp().getHttpServer()).delete(
-      `/workspaces/${createWorkspaceResponse.id}/members/${acceptInvitationResponse.invitation.userId}`,
+      `/workspaces/${workspace.id}/members/${acceptInvitationResponse.invitation.userId}`,
     );
 
     const removeMemberResponse =
@@ -411,26 +339,17 @@ describe('Workspace (e2e)', () => {
     expect(removeMemberResponse.userId).toBe(
       acceptInvitationResponse.invitation.userId,
     );
-    expect(removeMemberResponse.workspaceId).toBe(createWorkspaceResponse.id);
+    expect(removeMemberResponse.workspaceId).toBe(workspace.id);
   });
 
   it('should return an error if member does not exist when removing', async () => {
     // Arrange
-    const workspace = {
-      name: 'Workspace 1',
-    };
-
-    const createWorkspace = await request(getApp().getHttpServer())
-      .post('/workspaces')
-      .send(workspace);
-
-    const createWorkspaceResponse =
-      createWorkspace.body as CreateWorkspaceOutput;
+    const workspace = await createWorkspace(getApp());
 
     const userIdNoMember = 'user-id-no-member';
     // Act
     const removeMemberRequest = await request(getApp().getHttpServer()).delete(
-      `/workspaces/${createWorkspaceResponse.id}/members/${userIdNoMember}`,
+      `/workspaces/${workspace.id}/members/${userIdNoMember}`,
     );
 
     const removeMemberResponse = removeMemberRequest.body as ErrorResponse;
@@ -442,23 +361,14 @@ describe('Workspace (e2e)', () => {
 
   it("should change member's role", async () => {
     // Arrange
-    const workspace = {
-      name: 'Workspace 1',
-    };
-
-    const createWorkspace = await request(getApp().getHttpServer())
-      .post('/workspaces')
-      .send(workspace);
-
-    const createWorkspaceResponse =
-      createWorkspace.body as CreateWorkspaceOutput;
+    const workspace = await createWorkspace(getApp());
 
     const invitation = {
       inviteeEmail: 'invitee@email.com',
     };
 
     const createInvitationRequest = await request(getApp().getHttpServer())
-      .post(`/workspaces/${createWorkspaceResponse.id}/invitations`)
+      .post(`/workspaces/${workspace.id}/invitations`)
       .send(invitation);
 
     const createInvitationResponse =
@@ -477,7 +387,7 @@ describe('Workspace (e2e)', () => {
     const role = { role: WorkspaceRole.OWNER };
     const changeMemberRoleRequest = await request(getApp().getHttpServer())
       .patch(
-        `/workspaces/${createWorkspaceResponse.id}/members/${acceptInvitationResponse.invitation.userId}`,
+        `/workspaces/${workspace.id}/members/${acceptInvitationResponse.invitation.userId}`,
       )
       .send(role);
 
@@ -489,30 +399,19 @@ describe('Workspace (e2e)', () => {
     expect(changeMemberRoleResponse.userId).toBe(
       acceptInvitationResponse.invitation.userId,
     );
-    expect(changeMemberRoleResponse.workspaceId).toBe(
-      createWorkspaceResponse.id,
-    );
+    expect(changeMemberRoleResponse.workspaceId).toBe(workspace.id);
     expect(changeMemberRoleResponse.role).toBe(role.role);
   });
 
   it('should return en error if the member does not belong to the workspace', async () => {
     // Arrange
-    const workspace = {
-      name: 'Workspace 1',
-    };
-
-    const createWorkspace = await request(getApp().getHttpServer())
-      .post('/workspaces')
-      .send(workspace);
-
-    const createWorkspaceResponse =
-      createWorkspace.body as CreateWorkspaceOutput;
+    const workspace = await createWorkspace(getApp());
 
     // Act
     const role = { role: WorkspaceRole.OWNER };
     const userToFail = 'user-to-fail';
     const changeMemberRoleRequest = await request(getApp().getHttpServer())
-      .patch(`/workspaces/${createWorkspaceResponse.id}/members/${userToFail}`)
+      .patch(`/workspaces/${workspace.id}/members/${userToFail}`)
       .send(role);
 
     const changeMemberRoleResponse =
