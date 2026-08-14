@@ -5,6 +5,7 @@ export interface AcceptWorkspaceInvitationResponse {
   inviterId: string;
   inviteeEmail: string;
   status: InvitationStatus;
+  userId: string;
 }
 
 export interface AcceptWorkspaceInvitationOutput {

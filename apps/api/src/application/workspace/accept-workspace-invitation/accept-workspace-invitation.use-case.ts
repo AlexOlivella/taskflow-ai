@@ -88,6 +88,7 @@ export class AcceptWorkspaceInvitationUseCase {
         inviteeEmail: invitation.inviteeEmail,
         inviterId: invitation.inviterId,
         status: invitation.status,
+        userId: userId,
       },
     };
   }

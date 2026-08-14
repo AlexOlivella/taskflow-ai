@@ -113,3 +113,33 @@ The `ID_GENERATOR` provider is currently registered in multiple modules.
 **Goal**
 
 Extract it into a shared `IdModule` that exports the `ID_GENERATOR` provider so all modules reuse the same configuration.
+
+---
+
+### Application error handling strategy
+
+**Status**
+
+Pending
+
+**Description**
+
+The application currently uses a mix of typed application errors and generic `Error` instances.
+
+Some errors have dedicated types and HTTP filters (e.g. `WorkspaceNotFoundError`, `ProjectNameAlreadyExistsError`), while other use cases throw generic `Error` instances with a message.
+
+**Goal**
+
+Standardize application and domain errors by:
+
+- Using typed errors for business/application failures.
+- Avoiding generic `Error` instances for expected business errors.
+- Defining a consistent error hierarchy where appropriate.
+- Mapping application/domain errors to the correct HTTP responses through a consistent filter strategy.
+- Ensuring the HTTP layer does not depend on error message strings to determine the response.
+
+**Notes**
+
+This should be addressed after the E2E test suite is in place so the expected HTTP behavior can be defined and verified through E2E tests.
+
+Do not introduce individual filters for every error without first defining the overall error handling strategy.

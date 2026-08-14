@@ -80,6 +80,7 @@ describe('AcceptWorkspaceInvitationUseCase', () => {
     expect(output.invitation.id).toBe('invitation-123');
     expect(output.invitation.inviteeEmail).toBe('email@invitee.com');
     expect(output.invitation.status).toBe(InvitationStatus.ACCEPTED);
+    expect(output.invitation.userId).toBe('id-1');
 
     const invitationAfter =
       await invitationRepository.findById('invitation-123');
@@ -163,6 +164,7 @@ describe('AcceptWorkspaceInvitationUseCase', () => {
 
     // Assert
     expect(output.invitation.id).toBe('invitation-123');
+    expect(output.invitation.userId).toBe('user-1');
     expect(output.invitation.inviteeEmail).toBe('user1@email.com');
     expect(output.invitation.status).toBe(InvitationStatus.ACCEPTED);
 
