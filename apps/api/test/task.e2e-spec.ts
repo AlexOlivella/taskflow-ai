@@ -308,4 +308,111 @@ describe('Task (e2e)', () => {
     expect(changeTaskStatusRequest.status).toBe(500);
     expect(changeTaskStatusResponse.message).toBe('Internal server error');
   });
+
+  it('should return 400 if task name is empty', async () => {
+    const workspace = await createWorkspace(getApp());
+
+    const response = await request(getApp().getHttpServer())
+      .post(`/workspaces/${workspace.id}/tasks`)
+      .send({ name: '' });
+
+    expect(response.status).toBe(400);
+  });
+
+  it('should return 400 if task name is not a string', async () => {
+    const workspace = await createWorkspace(getApp());
+
+    const response = await request(getApp().getHttpServer())
+      .post(`/workspaces/${workspace.id}/tasks`)
+      .send({ name: 123 });
+
+    expect(response.status).toBe(400);
+  });
+
+  it('should return 400 if task status is invalid', async () => {
+    const workspace = await createWorkspace(getApp());
+
+    const createTaskResponse = await request(getApp().getHttpServer())
+      .post(`/workspaces/${workspace.id}/tasks`)
+      .send({ name: 'Task 1' });
+
+    const task = createTaskResponse.body as CreateTaskOutput;
+
+    const response = await request(getApp().getHttpServer())
+      .put(`/workspaces/${workspace.id}/tasks/${task.id}/status`)
+      .send({ status: 'INVALID_STATUS' });
+
+    expect(response.status).toBe(400);
+  });
+
+  it('should return 400 if assigneeId is not a string', async () => {
+    const workspace = await createWorkspace(getApp());
+
+    const createTaskResponse = await request(getApp().getHttpServer())
+      .post(`/workspaces/${workspace.id}/tasks`)
+      .send({ name: 'Task 1' });
+
+    const task = createTaskResponse.body as CreateTaskOutput;
+
+    const response = await request(getApp().getHttpServer())
+      .put(`/workspaces/${workspace.id}/tasks/${task.id}/assignee`)
+      .send({ assigneeId: 123 });
+
+    expect(response.status).toBe(400);
+  });
+
+  it('should allow null assigneeId', async () => {
+    const workspace = await createWorkspace(getApp());
+
+    const createTaskResponse = await request(getApp().getHttpServer())
+      .post(`/workspaces/${workspace.id}/tasks`)
+      .send({ name: 'Task 1' });
+
+    const task = createTaskResponse.body as CreateTaskOutput;
+
+    const response = await request(getApp().getHttpServer())
+      .put(`/workspaces/${workspace.id}/tasks/${task.id}/assignee`)
+      .send({ assigneeId: null });
+
+    expect(response.status).toBe(200);
+  });
+
+  it('should return 400 if task update name is empty', async () => {
+    const workspace = await createWorkspace(getApp());
+
+    const taskResponse = await request(getApp().getHttpServer())
+      .post(`/workspaces/${workspace.id}/tasks`)
+      .send({ name: 'Task 1' });
+
+    const task = taskResponse.body as CreateTaskOutput;
+
+    const response = await request(getApp().getHttpServer())
+      .put(`/workspaces/${workspace.id}/tasks/${task.id}`)
+      .send({ name: '' });
+
+    expect(response.status).toBe(400);
+  });
+
+  it('should return 400 if invitee email is missing', async () => {
+    const workspace = await createWorkspace(getApp());
+
+    const response = await request(getApp().getHttpServer())
+      .post(`/workspaces/${workspace.id}/invitations`)
+      .send({});
+
+    expect(response.status).toBe(400);
+  });
+
+  it('should return 400 if projectId is not a string', async () => {
+    const workspace = await createWorkspace(getApp());
+
+    const response = await request(getApp().getHttpServer())
+      .post(`/workspaces/${workspace.id}/tasks`)
+      .send({
+        name: 'Task 1',
+        projectId: 123,
+      });
+
+    expect(response.status).toBe(400);
+  });
 });

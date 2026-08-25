@@ -421,4 +421,70 @@ describe('Workspace (e2e)', () => {
     expect(changeMemberRoleRequest.status).toBe(500);
     expect(changeMemberRoleResponse.message).toBe('Internal server error');
   });
+
+  it('should return 400 if workspace name is empty', async () => {
+    const response = await request(getApp().getHttpServer())
+      .post('/workspaces')
+      .send({ name: '' });
+
+    expect(response.status).toBe(400);
+  });
+
+  it('should return 400 if workspace name is not a string', async () => {
+    const response = await request(getApp().getHttpServer())
+      .post('/workspaces')
+      .send({ name: 123 });
+
+    expect(response.status).toBe(400);
+  });
+
+  it('should return 400 if workspace member role is invalid', async () => {
+    const workspace = await createWorkspace(getApp());
+
+    const response = await request(getApp().getHttpServer())
+      .patch(`/workspaces/${workspace.id}/members/user-id`)
+      .send({ role: 'INVALID_ROLE' });
+
+    expect(response.status).toBe(400);
+  });
+
+  it('should return 400 if invitee email is invalid', async () => {
+    const workspace = await createWorkspace(getApp());
+
+    const response = await request(getApp().getHttpServer())
+      .post(`/workspaces/${workspace.id}/invitations`)
+      .send({ inviteeEmail: 'not-an-email' });
+
+    expect(response.status).toBe(400);
+  });
+
+  it('should return 400 if invitee email is missing', async () => {
+    const workspace = await createWorkspace(getApp());
+
+    const response = await request(getApp().getHttpServer())
+      .post(`/workspaces/${workspace.id}/invitations`)
+      .send({});
+
+    expect(response.status).toBe(400);
+  });
+
+  it('should return 400 if workspace update name is empty', async () => {
+    const workspace = await createWorkspace(getApp());
+
+    const response = await request(getApp().getHttpServer())
+      .put(`/workspaces/${workspace.id}`)
+      .send({ name: '' });
+
+    expect(response.status).toBe(400);
+  });
+
+  it('should return 400 if workspace member role is empty', async () => {
+    const workspace = await createWorkspace(getApp());
+
+    const response = await request(getApp().getHttpServer())
+      .patch(`/workspaces/${workspace.id}/members/user-id`)
+      .send({ role: '' });
+
+    expect(response.status).toBe(400);
+  });
 });

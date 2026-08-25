@@ -228,4 +228,56 @@ describe('Project (e2e)', () => {
     expect(getProjectRequest.status).toBe(500);
     expect(getProjectResponse.message).toBe('Internal server error');
   });
+
+  it('should return 400 if project name is empty', async () => {
+    const workspace = await createWorkspace(getApp());
+
+    const response = await request(getApp().getHttpServer())
+      .post(`/workspaces/${workspace.id}/projects`)
+      .send({ name: '' });
+
+    expect(response.status).toBe(400);
+  });
+
+  it('should return 400 if project name is not a string', async () => {
+    const workspace = await createWorkspace(getApp());
+
+    const response = await request(getApp().getHttpServer())
+      .post(`/workspaces/${workspace.id}/projects`)
+      .send({ name: 123 });
+
+    expect(response.status).toBe(400);
+  });
+
+  it('should return 400 if project update name is empty', async () => {
+    const workspace = await createWorkspace(getApp());
+
+    const projectResponse = await request(getApp().getHttpServer())
+      .post(`/workspaces/${workspace.id}/projects`)
+      .send({ name: 'Project 1' });
+
+    const project = projectResponse.body as { id: string };
+
+    const response = await request(getApp().getHttpServer())
+      .put(`/workspaces/${workspace.id}/projects/${project.id}`)
+      .send({ name: '' });
+
+    expect(response.status).toBe(400);
+  });
+
+  it('should return 400 if project update name is not a string', async () => {
+    const workspace = await createWorkspace(getApp());
+
+    const projectResponse = await request(getApp().getHttpServer())
+      .post(`/workspaces/${workspace.id}/projects`)
+      .send({ name: 'Project 1' });
+
+    const project = projectResponse.body as { id: string };
+
+    const response = await request(getApp().getHttpServer())
+      .put(`/workspaces/${workspace.id}/projects/${project.id}`)
+      .send({ name: 123 });
+
+    expect(response.status).toBe(400);
+  });
 });

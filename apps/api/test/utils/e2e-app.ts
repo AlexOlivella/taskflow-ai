@@ -1,4 +1,4 @@
-import { INestApplication } from '@nestjs/common';
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { Test } from '@nestjs/testing';
 import { App } from 'supertest/types';
 import { AppModule } from '../../src/app.module';
@@ -20,6 +20,13 @@ export function setupE2EApp(): {
     app.useGlobalFilters(
       new WorkspaceNotFoundFilter(),
       new ProjectNameAlreadyExistsFilter(),
+    );
+
+    app.useGlobalPipes(
+      new ValidationPipe({
+        whitelist: true,
+        transform: true,
+      }),
     );
 
     await app.init();

@@ -4,8 +4,7 @@ import { InvitationSender } from 'src/application/workspace/invite-user-to-works
 @Injectable()
 export class InMemoryInvitationSender implements InvitationSender {
   sendInvitation(inviteeEmail: string, invitationId: string): Promise<void> {
-    console.log(`Invitation ${invitationId} sent to ${inviteeEmail}`);
-
     return Promise.resolve();
+    console.log(`Invitation ${invitationId} sent to ${inviteeEmail}`);
   }
 }

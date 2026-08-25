@@ -74,7 +74,7 @@ export class AcceptWorkspaceInvitationUseCase {
       userId,
     );
 
-    console.log('Created workspace membership:', membership);
+    // console.log('Created workspace membership:', membership);
 
     await this.workspaceMembershipRepository.save(membership);
 
