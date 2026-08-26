@@ -3,6 +3,8 @@ import { ChangeWorkspaceMemberRoleUseCase } from './change-workspace-member-role
 import { InMemoryWorkspaceMembershipRepository } from 'src/infrastructure/persistence/in-memory/in-memory-workspaceMembership.repository';
 import { ChangeWorkspaceMemberRoleInput } from './change-workspace-member-role.input';
 import { WorkspaceRole } from 'src/domain/workspaceMembership/workspaceRole.enum';
+import { WorkspaceMustHaveOwnerError } from '../errors/workspace-must-have-owner.error';
+import { MembershipNotFoundError } from '../errors/membership-not-found.error';
 
 describe('ChangeWorkspaceMemberRole', () => {
   it('should change the role MEMBER to OWNER', async () => {
@@ -115,7 +117,7 @@ describe('ChangeWorkspaceMemberRole', () => {
 
     // Act & Assert
     await expect(() => useCase.execute(input)).rejects.toThrow(
-      `User ${input.userId} does not belong to the workspace ${input.workspaceId}`,
+      new MembershipNotFoundError(input.userId, input.workspaceId),
     );
   });
 
@@ -144,7 +146,7 @@ describe('ChangeWorkspaceMemberRole', () => {
 
     // Act & Assert
     await expect(() => useCase.execute(input)).rejects.toThrow(
-      `The workspace ${input.workspaceId} must have at least 1 Owner`,
+      new WorkspaceMustHaveOwnerError(input.workspaceId),
     );
   });
 });

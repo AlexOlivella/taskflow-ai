@@ -6,6 +6,8 @@ import { IdGenerator } from 'src/application/shared/id-generator';
 import { Invitation } from 'src/domain/invitation/invitation.entity';
 import { InvitationStatus } from 'src/domain/invitation/invitationStatus.enum';
 import { User } from 'src/domain/user/user.entity';
+import { InvitationNotFoundError } from '../errors/invitation-not-found.error';
+import { InvitationNotPendingError } from '../errors/invitation-not-pending.error';
 
 describe('AcceptWorkspaceInvitationUseCase', () => {
   class FakeIdGenerator implements IdGenerator {
@@ -95,7 +97,7 @@ describe('AcceptWorkspaceInvitationUseCase', () => {
     // Act & Assert
     await expect(() =>
       useCase.execute({ invitationId: invitationId }),
-    ).rejects.toThrow(`There is no invitation with this id: ${invitationId}`);
+    ).rejects.toThrow(new InvitationNotFoundError(invitationId));
   });
 
   it('should throw when the invitation status is not PENDING', async () => {
@@ -123,7 +125,7 @@ describe('AcceptWorkspaceInvitationUseCase', () => {
 
     // Act & Assert
     await expect(useCase.execute({ invitationId })).rejects.toThrow(
-      `Invitation ${invitationId} cannot be accepted because it is not pending.`,
+      new InvitationNotPendingError(invitationId),
     );
 
     const user = await userRepository.findUserByEmail('invitee@email.com');

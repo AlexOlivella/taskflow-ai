@@ -6,6 +6,8 @@ import {
 import { RemoveWorkspaceMemberInput } from './remove-workspace-member.input';
 import { RemoveWorkspaceMemberOutput } from './remove-workspace-member.output';
 import { WorkspaceRole } from 'src/domain/workspaceMembership/workspaceRole.enum';
+import { WorkspaceMustHaveOwnerError } from '../errors/workspace-must-have-owner.error';
+import { MembershipNotFoundError } from '../errors/membership-not-found.error';
 
 @Injectable()
 export class RemoveWorkspaceMemberUseCase {
@@ -24,9 +26,7 @@ export class RemoveWorkspaceMemberUseCase {
       );
 
     if (!membership) {
-      throw new Error(
-        `There is no membership for user ${input.userId} in workspace ${input.workspaceId}`,
-      );
+      throw new MembershipNotFoundError(input.userId, input.workspaceId);
     }
 
     const memberships =
@@ -39,9 +39,7 @@ export class RemoveWorkspaceMemberUseCase {
     );
 
     if (membership.role === WorkspaceRole.OWNER && owners.length === 1) {
-      throw new Error(
-        `The workspace ${membership.workspaceId} must have at least one Owner so you can't remove this member`,
-      );
+      throw new WorkspaceMustHaveOwnerError(membership.workspaceId);
     }
 
     await this.workspaceMembershipRepository.delete(

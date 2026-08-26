@@ -19,6 +19,8 @@ import {
   type IdGenerator,
 } from 'src/application/shared/id-generator';
 import { INVITATION_SENDER, type InvitationSender } from './invitation.sender';
+import { InvitationAlreadyPendingError } from '../errors/invitation-already-pending.error';
+import { UserAlreadyWorkspaceMemberError } from '../errors/user-already-workspace-member.error';
 
 @Injectable()
 export class InviteUserToWorkspaceUseCase {
@@ -49,8 +51,9 @@ export class InviteUserToWorkspaceUseCase {
       );
 
     if (existingInvitation) {
-      throw new Error(
-        `This email ${input.inviteeEmail} is already invited to the workspace ${input.workspaceId}`,
+      throw new InvitationAlreadyPendingError(
+        input.inviteeEmail,
+        input.workspaceId,
       );
     }
 
@@ -66,8 +69,9 @@ export class InviteUserToWorkspaceUseCase {
         );
 
       if (workspaceMembership) {
-        throw new Error(
-          `This user ${inviteeUser.id} already belongs to the workspace ${input.workspaceId}`,
+        throw new UserAlreadyWorkspaceMemberError(
+          inviteeUser.id,
+          input.workspaceId,
         );
       }
     }

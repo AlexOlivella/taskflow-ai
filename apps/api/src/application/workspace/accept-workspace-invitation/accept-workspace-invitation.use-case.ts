@@ -20,6 +20,8 @@ import {
   type IdGenerator,
 } from 'src/application/shared/id-generator';
 import { InvitationStatus } from 'src/domain/invitation/invitationStatus.enum';
+import { InvitationNotFoundError } from '../errors/invitation-not-found.error';
+import { InvitationNotPendingError } from '../errors/invitation-not-pending.error';
 
 @Injectable()
 export class AcceptWorkspaceInvitationUseCase {
@@ -42,15 +44,11 @@ export class AcceptWorkspaceInvitationUseCase {
     );
 
     if (!invitation) {
-      throw new Error(
-        `There is no invitation with this id: ${input.invitationId}`,
-      );
+      throw new InvitationNotFoundError(input.invitationId);
     }
 
     if (invitation.status !== InvitationStatus.PENDING) {
-      throw new Error(
-        `Invitation ${invitation.id} cannot be accepted because it is not pending.`,
-      );
+      throw new InvitationNotPendingError(input.invitationId);
     }
 
     const existingUser = await this.userRepository.findUserByEmail(

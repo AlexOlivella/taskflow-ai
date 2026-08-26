@@ -8,6 +8,8 @@ import { InvitationStatus } from 'src/domain/invitation/invitationStatus.enum';
 import { User } from 'src/domain/user/user.entity';
 import { WorkspaceMembership } from 'src/domain/workspaceMembership/workspaceMembership.entity';
 import { InvitationSender } from './invitation.sender';
+import { InvitationAlreadyPendingError } from '../errors/invitation-already-pending.error';
+import { UserAlreadyWorkspaceMemberError } from '../errors/user-already-workspace-member.error';
 
 describe('InviteUserToWorkspace', () => {
   class FakeIdGenerator implements IdGenerator {
@@ -101,9 +103,7 @@ describe('InviteUserToWorkspace', () => {
     await useCase.execute(input);
 
     await expect(useCase.execute(input)).rejects.toThrow(
-      Error(
-        `This email ${input.inviteeEmail} is already invited to the workspace ${input.workspaceId}`,
-      ),
+      new InvitationAlreadyPendingError(input.inviteeEmail, input.workspaceId),
     );
   });
 
@@ -126,9 +126,7 @@ describe('InviteUserToWorkspace', () => {
 
     // Act & Assert
     await expect(useCase.execute(input)).rejects.toThrow(
-      Error(
-        `This user user-1 already belongs to the workspace ${input.workspaceId}`,
-      ),
+      new UserAlreadyWorkspaceMemberError('user-1', input.workspaceId),
     );
   });
 

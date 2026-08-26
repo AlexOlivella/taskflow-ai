@@ -3,6 +3,8 @@ import { RemoveWorkspaceMemberUseCase } from './remove-workspace-member.use-case
 import { WorkspaceMembership } from 'src/domain/workspaceMembership/workspaceMembership.entity';
 import { WorkspaceRole } from 'src/domain/workspaceMembership/workspaceRole.enum';
 import { RemoveWorkspaceMemberInput } from './remove-workspace-member.input';
+import { MembershipNotFoundError } from '../errors/membership-not-found.error';
+import { WorkspaceMustHaveOwnerError } from '../errors/workspace-must-have-owner.error';
 
 describe('RemoveWorkspaceMember', () => {
   it('should remove the member from the workspace', async () => {
@@ -71,7 +73,7 @@ describe('RemoveWorkspaceMember', () => {
 
     // Act & Assert
     await expect(() => useCase.execute(input)).rejects.toThrow(
-      `There is no membership for user ${input.userId} in workspace ${input.workspaceId}`,
+      new MembershipNotFoundError(input.userId, input.workspaceId),
     );
   });
 
@@ -97,7 +99,7 @@ describe('RemoveWorkspaceMember', () => {
 
     // Act & Assert
     await expect(() => useCase.execute(input)).rejects.toThrow(
-      `The workspace ${input.workspaceId} must have at least one Owner so you can't remove this member`,
+      new WorkspaceMustHaveOwnerError(input.workspaceId),
     );
   });
   it('should remove an owner if there is another owner in the workspace', async () => {

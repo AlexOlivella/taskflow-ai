@@ -6,6 +6,8 @@ import {
 import { ChangeWorkspaceMemberRoleInput } from './change-workspace-member-role.input';
 import { ChangeWorkspaceMemberRoleOutput } from './change-workspace-member-role.output';
 import { WorkspaceRole } from 'src/domain/workspaceMembership/workspaceRole.enum';
+import { MembershipNotFoundError } from '../errors/membership-not-found.error';
+import { WorkspaceMustHaveOwnerError } from '../errors/workspace-must-have-owner.error';
 
 @Injectable()
 export class ChangeWorkspaceMemberRoleUseCase {
@@ -24,9 +26,7 @@ export class ChangeWorkspaceMemberRoleUseCase {
       );
 
     if (!workspaceMembership) {
-      throw new Error(
-        `User ${input.userId} does not belong to the workspace ${input.workspaceId}`,
-      );
+      throw new MembershipNotFoundError(input.userId, input.workspaceId);
     }
 
     const memberships =
@@ -42,9 +42,7 @@ export class ChangeWorkspaceMemberRoleUseCase {
       input.role === WorkspaceRole.MEMBER &&
       owners.length === 1
     ) {
-      throw new Error(
-        `The workspace ${input.workspaceId} must have at least 1 Owner`,
-      );
+      throw new WorkspaceMustHaveOwnerError(input.workspaceId);
     }
 
     workspaceMembership.changeRole(input.role);
